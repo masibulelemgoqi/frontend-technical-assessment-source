@@ -1,0 +1,8 @@
+{
+  "name": "Mama Money Frontend Technical Assessment",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
