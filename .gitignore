@@ -9,6 +9,7 @@
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 .vscode/
+.env
 
 *.log
 log.txt
