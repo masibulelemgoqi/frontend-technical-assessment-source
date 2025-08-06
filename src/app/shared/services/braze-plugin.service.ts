@@ -18,7 +18,6 @@ export class BrazePluginService {
   initialize(token: string) {
     BrazePlugin.setRegisteredPushToken(token);
     BrazePlugin.subscribeToInAppMessage(true);
-    this.setUserId('default_user'); // Set a default user ID or handle it dynamically
   }
 
   logCustomEvent(eventName: string, properties?: Record<string, any>) {
@@ -30,7 +29,7 @@ export class BrazePluginService {
   }
 
   setUserId(userId: string) {
-    BrazePlugin.updateUserId(userId);
+    BrazePlugin.updateUser(userId);
   }
 
   getContentCardsFromServer() {
@@ -54,7 +53,6 @@ export class BrazePluginService {
   }
 
   private successCallback(contentCards: BrazeContentCard[]) {
-    console.log('Content Cards fetched successfully:', JSON.stringify(contentCards));
     const inboxCards = contentCards.filter((card) => card.extras?.type == 'inbox');
     this.inboxNotificationSubject.next(inboxCards);
   }

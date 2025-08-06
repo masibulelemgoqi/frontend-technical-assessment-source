@@ -45,7 +45,7 @@ import { BrazePluginService } from '@services/braze-plugin.service';
   imports: [CommonModule, IonHeader, IonContent, HeaderComponent, InboxCardComponent, AsyncPipe, SpinnerComponent]
 })
 export class InboxPage implements OnInit {
-  private route = inject(Router);
+  private router = inject(Router);
   private brazePluginService = inject(BrazePluginService);
   private alertController = inject(AlertController);
 
@@ -79,16 +79,24 @@ export class InboxPage implements OnInit {
   clickedCard(notification: BrazeContentCard) {
     if (notification.url) {
       this.brazePluginService.logContentCardClicked(notification.id);
-      window.location.href = notification.url;
+
+      this.handleDeeplink(notification.url);
     } else {
       console.warn('No URL available for this notification');
     }
+  }
+
+  handleDeeplink(url: string) {
+    const path = url.split(':/')[1];
+    this.router.navigateByUrl(`/${path}`).catch((error) => {
+      console.error('Error navigating to URL:', error);
+    });
   }
 
   ngOnInit(): void {
     this.brazePluginService.getContentCardsFromCache();
   }
   navigateBack(): void {
-    this.route.navigate(['..']);
+    this.router.navigate(['..']);
   }
 }

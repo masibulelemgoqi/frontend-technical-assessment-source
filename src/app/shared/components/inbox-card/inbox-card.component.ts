@@ -7,12 +7,12 @@ import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-inbox-card',
-  template: ` <ion-card class="ion-no-padding" (click)="onCardClick.emit(notification)">
+  template: ` <ion-card class="ion-no-padding">
     <ion-card-header>
       @if (title) {
       <ion-card-title>
         <div class="notification-card">
-          <div class="notification-card-title">
+          <div class="notification-card-title" (click)="onCardClick.emit(notification)">
             @if(icon) {
             <div class="m-r-1">
               <app-image-loader
@@ -39,7 +39,7 @@ import { addIcons } from 'ionicons';
       }
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content (click)="onCardClick.emit(notification)" class="ion-text-wrap notification-card-content">
       @if (description) {
       <p>{{ description }}</p>
       }
@@ -53,6 +53,11 @@ import { addIcons } from 'ionicons';
         align-items: center;
         justify-content: space-between;
         width: 100%;
+      }
+
+      .notification-card-title,
+      .notification-card-content {
+        cursor: pointer;
       }
 
       .notification-card-title {

@@ -7,7 +7,6 @@ const config: CapacitorConfig = {
   appId: 'za.co.mamamoney.assessments.frontend',
   appName: 'Mama Money Frontend Technical Assessment',
   webDir: 'www',
-  android: {},
   plugins: {
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert']
@@ -16,7 +15,6 @@ const config: CapacitorConfig = {
   cordova: {
     preferences: {
       // Braze Android
-
       'com.braze.api_key': process.env['BRAZE_ANDROID_KEY'] ?? '',
       'com.braze.android_api_endpoint': process.env['BRAZE_ENDPOINT'] ?? '',
       'com.braze.android_fcm_sender_id': SENDER_ID ? `str_${SENDER_ID}` : '',

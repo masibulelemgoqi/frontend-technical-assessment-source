@@ -1,10 +1,8 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '@components/header/header.component';
 import { MmCardComponent } from '@components/mm-card/mm-card.component';
-import { IonHeader, IonContent, IonButton, ToastController } from '@ionic/angular/standalone';
-import { BrazeContentCard } from '@models/braze/braze-content-card';
+import { IonHeader, IonContent, IonButton } from '@ionic/angular/standalone';
 import { BrazePluginService } from '@services/braze-plugin.service';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -31,36 +29,11 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [IonHeader, IonContent, IonButton, HeaderComponent, MmCardComponent]
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage {
   private brazePluginService = inject(BrazePluginService);
-  private toastController = inject(ToastController);
   private CUSTOM_EVENT_NAME = 'INBOX_MESSAGE_TEST';
-  private destroy$ = new Subject<void>();
-
-  async ngOnInit(): Promise<void> {
-    this.brazePluginService.inboxNotifications$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((notifications) => this.handleNotification(notifications));
-  }
-
-  async handleNotification(notifications: BrazeContentCard[]) {
-    if (notifications.length === 0) return;
-    const notification = notifications[notifications.length - 1]; // Assuming we only care about the last notification
-    const toast = await this.toastController.create({
-      message: notification.title || 'New Notification',
-      duration: 2000,
-      position: 'bottom',
-      color: 'primary'
-    });
-    await toast.present();
-  }
 
   async sendInboxTestEvent(): Promise<void> {
     this.brazePluginService.logCustomEvent(this.CUSTOM_EVENT_NAME);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
